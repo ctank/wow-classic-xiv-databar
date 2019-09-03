@@ -70,16 +70,8 @@ L['Show Social Button'] = "显示好友列表按钮";
 L['Show Character Button'] = "显示角色信息按钮";
 L['Show Spellbook Button'] = "显示法术书和技能按钮";
 L['Show Talents Button'] = "显示专精和天赋按钮";
-L['Show Achievements Button'] = "显示成就按钮";
 L['Show Quests Button'] = "显示任务日志按钮";
-L['Show LFG Button'] = "显示地下城和团队副本按钮";
-L['Show Journal Button'] = "显示冒险指南按钮";
-L['Show PVP Button'] = "显示PVP按钮";
-L['Show Pets Button'] = "显示藏品按钮";
-L['Show Shop Button'] = "显示商城按钮";
-L['Show Help Button'] = "显示帮助按钮";
 
-L['Always Show Item Level'] = "始终显示物品等级";
 L['Minimum Durability to Become Active'] = "当耐久度损失到多少时,变得活跃";
 L['Maximum Durability to Show Item Level'] = "当耐久度达到多少时,显示物品等级";
 
@@ -91,9 +83,6 @@ L['Use Server Time'] = "使用服务器时间";
 L['New Event!'] = "新事件!";
 L['Local Time'] = "本地时间";
 L['Realm Time'] = "服务器时间";
-L['Open Calendar'] = "打开日历";
-L['Open Clock'] = "打开时钟";
-L['Hide Event Text'] = "隐藏事件文字";
 
 L['Travel'] = "传送";
 L['Port Options'] = "传送选项";
@@ -129,12 +118,3 @@ L['Cleaned'] = "已清理";
 L['Use Class Colors'] = "使用职业颜色";
 L['Cooldowns'] = "冷却";
 
-L['Set Specialization'] = "设置专精";
-L['Set Loot Specialization'] = "设置拾取专精";
-L['Current Specialization'] = "当前专精";
-L['Current Loot Specialization'] = "当前拾取专精";
-L['Talent Minimum Width'] = "天赋最小宽度";
-L['Open Artifact'] = "打开神器";
-L['Remaining'] = "剩余";
-L['Available Ranks'] = "神器等级";
-L['Artifact Knowledge'] = "神器知识";

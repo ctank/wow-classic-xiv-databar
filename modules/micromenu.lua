@@ -5,6 +5,11 @@ local L = XIVBar.L;
 
 local MenuModule = xb:NewModule("MenuModule", 'AceEvent-3.0')
 
+
+local GetNumFriends = C_FriendList.GetNumFriends
+local GetNumOnlineFriends = C_FriendList.GetNumOnlineFriends
+local GetFriendInfoByIndex = C_FriendList.GetFriendInfoByIndex
+
 function MenuModule:GetName()
   return L['Micromenu'];
 end
@@ -240,66 +245,12 @@ function MenuModule:CreateFrames()
 	end
   end
 
-  if xb.db.profile.modules.microMenu.ach then
-    self.frames.ach = CreateFrame("BUTTON", "ach", parentFrame)
-    parentFrame = self.frames.ach
-  else
-	if self.frames.ach then
-		self.frames.ach = nil
-	end
-  end
-
   if xb.db.profile.modules.microMenu.quest then
     self.frames.quest = CreateFrame("BUTTON", "quest", parentFrame)
     parentFrame = self.frames.quest
   else
 	if self.frames.quest then
 		self.frames.quest = nil
-	end
-  end
-
-  if xb.db.profile.modules.microMenu.lfg then
-    self.frames.lfg = CreateFrame("BUTTON", "lfg", parentFrame)
-    parentFrame = self.frames.lfg
-  else
-	if self.frames.lfg then
-		self.frames.lfg = nil
-	end
-  end
-
-  if xb.db.profile.modules.microMenu.journal then
-    self.frames.journal = CreateFrame("BUTTON", "journal", parentFrame)
-    parentFrame = self.frames.journal
-  else
-	if self.frames.journal then
-		self.frames.journal = nil
-	end
-  end
-
-  if xb.db.profile.modules.microMenu.pvp then
-    self.frames.pvp = CreateFrame("BUTTON", "pvp", parentFrame)
-    parentFrame = self.frames.pvp
-  else
-	if self.frames.pvp then
-		self.frames.pvp = nil
-	end
-  end
-
-  if xb.db.profile.modules.microMenu.pet then
-    self.frames.pet = CreateFrame("BUTTON", "pet", parentFrame)
-    parentFrame = self.frames.pet
-  else
-	if self.frames.pet then
-		self.frames.pet = nil
-	end
-  end
-
-  if xb.db.profile.modules.microMenu.shop then
-    self.frames.shop = CreateFrame("BUTTON", "shop", parentFrame)
-    parentFrame = self.frames.shop
-  else
-	if self.frames.shop then
-		self.frames.shop = nil
 	end
   end
 
@@ -384,25 +335,27 @@ function MenuModule:UnregisterFrameEvents()
 end
 
 function MenuModule:UpdateGuildText()
-  if xb.db.profile.modules.microMenu.hideSocialText or not xb.db.profile.modules.microMenu.guild then return; end
-  GuildRoster()
-  if IsInGuild() then
-    local _, onlineMembers = GetNumGuildMembers()
-    self.text.guild:SetText(onlineMembers)
-    self.bgTexture.guild:SetPoint('CENTER', self.text.guild)
-  else
-    self.text.guild:Hide()
-    self.bgTexture.guild:Hide()
-  end
+  -- TODO:Ctank 公会在线数字
+  -- if xb.db.profile.modules.microMenu.hideSocialText or not xb.db.profile.modules.microMenu.guild then return; end
+  -- GuildRoster()
+  -- if IsInGuild() then
+  --   local _, onlineMembers = GetNumGuildMembers()
+  --   self.text.guild:SetText(onlineMembers)
+  --   self.bgTexture.guild:SetPoint('CENTER', self.text.guild)
+  -- else
+  --   self.text.guild:Hide()
+  --   self.bgTexture.guild:Hide()
+  -- end
 end
 
 function MenuModule:UpdateFriendText()
-  if xb.db.profile.modules.microMenu.hideSocialText or not xb.db.profile.modules.microMenu.social then return; end
-  local _, bnOnlineMembers = BNGetNumFriends()
-  local _, friendsOnline = GetNumFriends()
-  local totalFriends = bnOnlineMembers + friendsOnline
-  self.text.social:SetText(totalFriends)
-  self.bgTexture.social:SetPoint('CENTER', self.text.social)
+  -- TODO:Ctank 好友在线数字
+  -- if xb.db.profile.modules.microMenu.hideSocialText or not xb.db.profile.modules.microMenu.social then return; end
+  -- local _, bnOnlineMembers = BNGetNumFriends()
+  -- local _, friendsOnline = C_FriendList.GetNumFriends()
+  -- local totalFriends = bnOnlineMembers + friendsOnline
+  -- self.text.social:SetText(totalFriends)
+  -- self.bgTexture.social:SetPoint('CENTER', self.text.social)
 end
 
 function MenuModule:DefaultHover(name)
@@ -449,7 +402,17 @@ function MenuModule:SocialHover(hoverFunc)
 	tooltip:SetScript("OnUpdate",function() if not self.tipHover and not self.lineHover then tooltip:Release() end end)
 	MenuModule:SkinFrame(tooltip, "SocialToolTip")
     local totalBNFriends, totalBNOnlineFriends = BNGetNumFriends()
-    local totalFriends, totalOnlineFriends = GetNumFriends()
+    local totalFriends = GetNumFriends()
+    local totalOnlineFriends = GetNumOnlineFriends()
+
+
+    -- local onlineFriends = C_FriendList_GetNumOnlineFriends()
+    -- local numberOfFriends = C_FriendList_GetNumFriends()
+    -- local totalBNet, numBNetOnline = BNGetNumFriends()
+
+
+
+
 	local charNameFormat
     if (totalOnlineFriends + totalBNOnlineFriends) > 0 then
       tooltip:SmartAnchorTo(MenuModule.frames.social)
@@ -518,7 +481,7 @@ function MenuModule:SocialHover(hoverFunc)
     end -- totalBNOnlineFriends
 
     if totalOnlineFriends then
-      for i = 1, GetNumFriends() do
+      for i = 1, GetNumOnlineFriends() do
         local name, level, class, area, isOnline, status, note = GetFriendInfo(i)
         if isOnline then
           local status = FRIENDS_LIST_ONLINE
@@ -671,14 +634,14 @@ function MenuModule:CreateClickFunctions()
   self.functions.guild = function(self, button, down)
     if (not xb.db.profile.modules.microMenu.combatEn) and InCombatLockdown() then return; end
     if button == "LeftButton" then
-      ToggleGuildFrame()
+      ToggleFriendsFrame(3)
     end
   end; --guild
 
   self.functions.social = function(self, button, down)
     if (not xb.db.profile.modules.microMenu.combatEn) and InCombatLockdown() then return; end
     if button == "LeftButton" then
-      ToggleFriendsFrame()
+      ToggleFriendsFrame(1)
     end
   end; --social
 
@@ -703,34 +666,6 @@ function MenuModule:CreateClickFunctions()
   	end
   end; --talent
 
-  self.functions.journal = function(self, button, down)
-    if (not xb.db.profile.modules.microMenu.combatEn) and InCombatLockdown() then return; end
-    if button == "LeftButton" then
-  		ToggleEncounterJournal()
-  	end
-  end; --journal
-
-  self.functions.lfg = function(self, button, down)
-    if (not xb.db.profile.modules.microMenu.combatEn) and InCombatLockdown() then return; end
-    if button == "LeftButton" then
-  		ToggleLFDParentFrame()
-  	end
-  end; --lfg
-
-  self.functions.pet = function(self, button, down)
-    if (not xb.db.profile.modules.microMenu.combatEn) and InCombatLockdown() then return; end
-    if button == "LeftButton" then
-  		ToggleCollectionsJournal()
-  	end
-  end; --pet
-
-  self.functions.ach = function(self, button, down)
-    if (not xb.db.profile.modules.microMenu.combatEn) and InCombatLockdown() then return; end
-    if button == "LeftButton" then
-  		ToggleAchievementFrame()
-  	end
-  end; --ach
-
   self.functions.quest = function(self, button, down)
     if (not xb.db.profile.modules.microMenu.combatEn) and InCombatLockdown() then return; end
     if button == "LeftButton" then
@@ -738,19 +673,19 @@ function MenuModule:CreateClickFunctions()
   	end
   end; --quest
 
-  self.functions.pvp = function(self, button, down)
-    if (not xb.db.profile.modules.microMenu.combatEn) and InCombatLockdown() then return; end
-    if button == "LeftButton" then
-  		TogglePVPUI()
-  	end
-  end; --pvp
+  -- self.functions.pvp = function(self, button, down)
+  --   if (not xb.db.profile.modules.microMenu.combatEn) and InCombatLockdown() then return; end
+  --   if button == "LeftButton" then
+  -- 		TogglePVPUI()
+  -- 	end
+  -- end; --pvp
 
-  self.functions.shop = function(self, button, down)
-    if (not xb.db.profile.modules.microMenu.combatEn) and InCombatLockdown() then return; end
-    if button == "LeftButton" then
-  		ToggleStoreUI()
-  	end
-  end; --shop
+  -- self.functions.shop = function(self, button, down)
+  --   if (not xb.db.profile.modules.microMenu.combatEn) and InCombatLockdown() then return; end
+  --   if button == "LeftButton" then
+  -- 		ToggleStoreUI()
+  -- 	end
+  -- end; --shop
 
   self.functions.help = function(self, button, down)
     if (not xb.db.profile.modules.microMenu.combatEn) and InCombatLockdown() then return; end
@@ -929,54 +864,12 @@ function MenuModule:GetConfig()
             get = function() return xb.db.profile.modules.microMenu.talent; end,
             set = function(_, val) xb.db.profile.modules.microMenu.talent = val; self:UpdateMenu(); self:Refresh(); end
           },
-          ach = {
-            name = L['Show Achievements Button'],
-            order = 8,
-            type = "toggle",
-            get = function() return xb.db.profile.modules.microMenu.ach; end,
-            set = function(_, val) xb.db.profile.modules.microMenu.ach = val; self:UpdateMenu(); self:Refresh(); end
-          },
           quest = {
             name = L['Show Quests Button'],
             order = 9,
             type = "toggle",
             get = function() return xb.db.profile.modules.microMenu.quest; end,
             set = function(_, val) xb.db.profile.modules.microMenu.quest = val; self:UpdateMenu(); self:Refresh(); end
-          },
-          lfg = {
-            name = L['Show LFG Button'],
-            order = 10,
-            type = "toggle",
-            get = function() return xb.db.profile.modules.microMenu.lfg; end,
-            set = function(_, val) xb.db.profile.modules.microMenu.lfg = val; self:UpdateMenu(); self:Refresh(); end
-          },
-          journal = {
-            name = L['Show Journal Button'],
-            order = 11,
-            type = "toggle",
-            get = function() return xb.db.profile.modules.microMenu.journal; end,
-            set = function(_, val) xb.db.profile.modules.microMenu.journal = val; self:UpdateMenu(); self:Refresh(); end
-          },
-          pvp = {
-            name = L['Show PVP Button'],
-            order = 12,
-            type = "toggle",
-            get = function() return xb.db.profile.modules.microMenu.pvp; end,
-            set = function(_, val) xb.db.profile.modules.microMenu.pvp = val; self:UpdateMenu(); self:Refresh(); end
-          },
-          pet = {
-            name = L['Show Pets Button'],
-            order = 13,
-            type = "toggle",
-            get = function() return xb.db.profile.modules.microMenu.pet; end,
-            set = function(_, val) xb.db.profile.modules.microMenu.pet = val; self:UpdateMenu(); self:Refresh(); end
-          },
-          shop = {
-            name = L['Show Shop Button'],
-            order = 14,
-            type = "toggle",
-            get = function() return xb.db.profile.modules.microMenu.shop; end,
-            set = function(_, val) xb.db.profile.modules.microMenu.shop = val; self:UpdateMenu(); self:Refresh(); end
           },
           help = {
             name = L['Show Help Button'],

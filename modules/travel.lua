@@ -203,8 +203,9 @@ function TravelModule:SetHearthColor()
     self.hearthIcon:SetVertexColor(db.color.inactive.r, db.color.inactive.g, db.color.inactive.b, db.color.inactive.a)
     local hearthName = ''
     local hearthActive = false
+    
     for i,v in ipairs(self.hearthstones) do
-      if (PlayerHasToy(v) or IsUsableItem(v)) then
+      if (IsUsableItem(v)) then
         if GetItemCooldown(v) == 0 then
           hearthName, _ = GetItemInfo(v)
           if hearthName ~= nil then
@@ -213,7 +214,8 @@ function TravelModule:SetHearthColor()
             break
           end
         end
-      end -- if toy/item
+      end -- if item
+
       if IsPlayerSpell(v) then
         if GetSpellCooldown(v) == 0 then
           hearthName, _ = GetSpellInfo(v)

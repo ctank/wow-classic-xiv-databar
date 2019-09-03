@@ -90,9 +90,6 @@ function ClockModule:Refresh()
 
   self.eventText:SetFont(xb:GetFont(db.text.smallFontSize))
   self.eventText:SetPoint('CENTER', self.clockText, xb.miniTextPosition)
-  if xb.db.profile.modules.clock.hideEventText then
-    self.eventText:Hide()
-  end
 end
 
 function ClockModule:CreateFrames()
@@ -118,13 +115,6 @@ function ClockModule:RegisterFrameEvents()
       end
       ClockModule.clockText:SetText(dateString)
 
-      if not xb.db.profile.modules.clock.hideEventText then
-        local eventInvites = C_Calendar.GetNumPendingInvites()
-        if eventInvites > 0 then
-          ClockModule.eventText:SetText(string.format("%s  (|cffffff00%i|r)", L['New Event!'], eventInvites))
-        end
-      end
-
       ClockModule:Refresh()
       ClockModule.elapsed = 0
     end
@@ -147,9 +137,6 @@ function ClockModule:RegisterFrameEvents()
 
     GameTooltip:AddDoubleLine(L['Local Time'], date(ClockModule.timeFormats[xb.db.profile.modules.clock.timeFormat], clockTime), 1, 1, 0, 1, 1, 1)
     GameTooltip:AddDoubleLine(L['Realm Time'], realmTime, 1, 1, 0, 1, 1, 1)
-    GameTooltip:AddLine(" ")
-    GameTooltip:AddDoubleLine('<'..L['Left-Click']..'>', L['Open Calendar'], 1, 1, 0, 1, 1, 1)
-    GameTooltip:AddDoubleLine('<'..L['Right-Click']..'>', L['Open Clock'], 1, 1, 0, 1, 1, 1)
     GameTooltip:Show()
   end)
 
@@ -159,14 +146,7 @@ function ClockModule:RegisterFrameEvents()
     GameTooltip:Hide()
   end)
 
-  self.clockTextFrame:SetScript('OnClick', function(_, button)
-    if InCombatLockdown() then return; end
-    if button == 'LeftButton' then
-      ToggleCalendar()
-    elseif button == 'RightButton' then
-      ToggleTimeManager()
-    end
-  end)
+  
 end
 
 function ClockModule:SetClockColor()
@@ -189,8 +169,7 @@ function ClockModule:GetDefaultOptions()
       enabled = true,
       timeFormat = 'twelveAmPm',
       fontSize = 20,
-      serverTime = false,
-      hideEventText = false
+      serverTime = false
     }
 end
 
@@ -222,13 +201,6 @@ function ClockModule:GetConfig()
         type = "toggle",
         get = function() return xb.db.profile.modules.clock.serverTime; end,
         set = function(_, val) xb.db.profile.modules.clock.serverTime = val; end
-      },
-      hideEventText = {
-        name = L['Hide Event Text'],
-        order = 2,
-        type = "toggle",
-        get = function() return xb.db.profile.modules.clock.hideEventText; end,
-        set = function(_, val) xb.db.profile.modules.clock.hideEventText = val; end
       },
       timeFormat = {
         name = L['Time Format'],

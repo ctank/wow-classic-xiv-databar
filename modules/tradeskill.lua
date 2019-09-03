@@ -26,20 +26,21 @@ function TradeskillModule:OnInitialize()
 end
 
 function TradeskillModule:OnEnable()
-  if self.tradeskillFrame == nil then
-    self.tradeskillFrame = CreateFrame("FRAME", nil, xb:GetFrame('bar'))
-    xb:RegisterFrame('tradeskillFrame', self.tradeskillFrame)
-  end
+  -- TODO:Ctank
+  -- if self.tradeskillFrame == nil then
+  --   self.tradeskillFrame = CreateFrame("FRAME", nil, xb:GetFrame('bar'))
+  --   xb:RegisterFrame('tradeskillFrame', self.tradeskillFrame)
+  -- end
 
-  self.tradeskillFrame:Show()
+  -- self.tradeskillFrame:Show()
 
-  local prof1, prof2, _ = GetProfessions()
-  self.prof1 = prof1
-  self.prof2 = prof2
+  -- local prof1, prof2, _ = GetProfessions()
+  -- self.prof1 = prof1
+  -- self.prof2 = prof2
 
-  self:CreateFrames()
-  self:RegisterFrameEvents()
-  self:Refresh()
+  -- self:CreateFrames()
+  -- self:RegisterFrameEvents()
+  -- self:Refresh()
 end
 
 function TradeskillModule:OnDisable()

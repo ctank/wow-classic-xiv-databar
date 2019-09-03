@@ -2,6 +2,7 @@ local AddOnName, XIVBar = ...;
 local _G = _G;
 local xb = XIVBar;
 local L = XIVBar.L;
+local SystemFrameSize = 100
 
 local SystemModule = xb:NewModule("SystemModule", 'AceEvent-3.0', 'AceHook-3.0')
 
@@ -101,7 +102,7 @@ function SystemModule:Refresh()
   self.pingFrame:SetSize(pingWidest + iconSize, xb:GetHeight())
   self.pingFrame:SetPoint('LEFT', self.fpsFrame, 'RIGHT', 5, 0)
 
-  self.systemFrame:SetSize(self.fpsFrame:GetWidth() + self.pingFrame:GetWidth(), xb:GetHeight())
+  self.systemFrame:SetSize(self.fpsFrame:GetWidth() + self.pingFrame:GetWidth() + SystemFrameSize, xb:GetHeight())
 
   --self.systemFrame:SetSize()
   local relativeAnchorPoint = 'LEFT'

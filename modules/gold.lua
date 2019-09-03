@@ -68,27 +68,28 @@ function GoldModule:GetName()
 end
 
 function GoldModule:OnInitialize()
-  if not xb.db.factionrealm[xb.constants.playerName] then
-    xb.db.factionrealm[xb.constants.playerName] = { currentMoney = 0, sessionMoney = 0, dailyMoney = 0 }
-  else
-    if not xb.db.factionrealm[xb.constants.playerName].dailyMoney then
-      xb.db.factionrealm[xb.constants.playerName].dailyMoney = 0
-    end
-  end
+  -- TODO:Ctank
+  -- if not xb.db.factionrealm[xb.constants.playerName] then
+  --   xb.db.factionrealm[xb.constants.playerName] = { currentMoney = 0, sessionMoney = 0, dailyMoney = 0 }
+  -- else
+  --   if not xb.db.factionrealm[xb.constants.playerName].dailyMoney then
+  --     xb.db.factionrealm[xb.constants.playerName].dailyMoney = 0
+  --   end
+  -- end
   
-  local playerData = xb.db.factionrealm[xb.constants.playerName]
+  -- local playerData = xb.db.factionrealm[xb.constants.playerName]
 
-  local curDate = C_Calendar.GetDate()
-  local today = ConvertDateToNumber(curDate.month, curDate.monthDay, curDate.year)
+  -- local curDate = C_Calendar.GetDate()
+  -- local today = ConvertDateToNumber(curDate.month, curDate.monthDay, curDate.year)
   
-  if playerData.lastLoginDate then
-      if playerData.lastLoginDate < today then -- is true, if last time player logged in was the day before or even earlier
-          playerData.lastLoginDate = today
-          playerData.daily = 0
-      end
-  else
-    playerData.lastLoginDate = today
-  end
+  -- if playerData.lastLoginDate then
+  --     if playerData.lastLoginDate < today then -- is true, if last time player logged in was the day before or even earlier
+  --         playerData.lastLoginDate = today
+  --         playerData.daily = 0
+  --     end
+  -- else
+  --   playerData.lastLoginDate = today
+  -- end
 end
 
 function GoldModule:OnEnable()

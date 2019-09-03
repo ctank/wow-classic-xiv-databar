@@ -213,38 +213,39 @@ function XIVBar:HideBarEvent()
 	local vehiculeIsFlight = false;
 
     bar:UnregisterAllEvents()
-	bar.OnEvent = nil
-	bar:RegisterEvent("PET_BATTLE_OPENING_START")
-	bar:RegisterEvent("PET_BATTLE_CLOSE")
-    bar:RegisterEvent("TAXIMAP_CLOSED")
-    bar:RegisterEvent("VEHICLE_POWER_SHOW")
+    bar.OnEvent = nil
+    -- TODO:Ctank
+	-- bar:RegisterEvent("PET_BATTLE_OPENING_START")
+	-- bar:RegisterEvent("PET_BATTLE_CLOSE")
+    -- bar:RegisterEvent("TAXIMAP_CLOSED")
+    -- bar:RegisterEvent("VEHICLE_POWER_SHOW")
 
-	bar:SetScript("OnEvent", function(_, event, ...)
-        if self.db.profile.general.barFlightHide then
-            if event == "VEHICLE_POWER_SHOW" then
-                if not XIV_Databar:IsVisible() then
-                    XIV_Databar:Show()
-                end
-                if vehiculeIsFlight and XIV_Databar:IsVisible() then
-                    XIV_Databar:Hide()
-                end
-            end
+	-- bar:SetScript("OnEvent", function(_, event, ...)
+    --     if self.db.profile.general.barFlightHide then
+    --         if event == "VEHICLE_POWER_SHOW" then
+    --             if not XIV_Databar:IsVisible() then
+    --                 XIV_Databar:Show()
+    --             end
+    --             if vehiculeIsFlight and XIV_Databar:IsVisible() then
+    --                 XIV_Databar:Hide()
+    --             end
+    --         end
 
-            if event == "TAXIMAP_CLOSED" then
-                vehiculeIsFlight = true
-                C_Timer.After(1,function()
-                    vehiculeIsFlight = false
-                end)
-            end
-        end
+    --         if event == "TAXIMAP_CLOSED" then
+    --             vehiculeIsFlight = true
+    --             C_Timer.After(1,function()
+    --                 vehiculeIsFlight = false
+    --             end)
+    --         end
+    --     end
 
-		if event=="PET_BATTLE_OPENING_START" and XIV_Databar:IsVisible() then
-			XIV_Databar:Hide()
-		end
-		if event=="PET_BATTLE_CLOSE" and not XIV_Databar:IsVisible() then
-			XIV_Databar:Show()
-		end
-	end)
+	-- 	if event=="PET_BATTLE_OPENING_START" and XIV_Databar:IsVisible() then
+	-- 		XIV_Databar:Hide()
+	-- 	end
+	-- 	if event=="PET_BATTLE_CLOSE" and not XIV_Databar:IsVisible() then
+	-- 		XIV_Databar:Show()
+	-- 	end
+	-- end)
 
 	if self.db.profile.general.barCombatHide then
 		bar:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -354,38 +355,39 @@ function XIVBar:PrintTable(table, prefix)
 end
 
 function OffsetUI()
-    local inOrderHall = C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0);
+    -- TODO:Ctank
+    -- local inOrderHall = C_Garrison.IsPlayerInGarrison(LE_GARRISON_TYPE_7_0);
 
-    local offset=XIVBar.frames.bar:GetHeight();
-    local buffsAreaTopOffset = offset;
+    -- local offset=XIVBar.frames.bar:GetHeight();
+    -- local buffsAreaTopOffset = offset;
 
-    if (PlayerFrame and not PlayerFrame:IsUserPlaced() and not PlayerFrame_IsAnimatedOut(PlayerFrame)) then
-        PlayerFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", -19, -4 - offset)
-    end
+    -- if (PlayerFrame and not PlayerFrame:IsUserPlaced() and not PlayerFrame_IsAnimatedOut(PlayerFrame)) then
+    --     PlayerFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", -19, -4 - offset)
+    -- end
 
-    if (TargetFrame and not TargetFrame:IsUserPlaced()) then
-        TargetFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 250, -4 - offset);
-    end
+    -- if (TargetFrame and not TargetFrame:IsUserPlaced()) then
+    --     TargetFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 250, -4 - offset);
+    -- end
 
-    local ticketStatusFrameShown = TicketStatusFrame and TicketStatusFrame:IsShown();
-    local gmChatStatusFrameShown = GMChatStatusFrame and GMChatStatusFrame:IsShown();
-    if (ticketStatusFrameShown) then
-        TicketStatusFrame:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -180, 0 - offset);
-        buffsAreaTopOffset = buffsAreaTopOffset + TicketStatusFrame:GetHeight();
-    end
-    if (gmChatStatusFrameShown) then
-        GMChatStatusFrame:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -170, -5 - offset);
-        buffsAreaTopOffset = buffsAreaTopOffset + GMChatStatusFrame:GetHeight() + 5;
-    end
-    if (not ticketStatusFrameShown and not gmChatStatusFrameShown) then
-        buffsAreaTopOffset = buffsAreaTopOffset + 13;
-    end
+    -- local ticketStatusFrameShown = TicketStatusFrame and TicketStatusFrame:IsShown();
+    -- local gmChatStatusFrameShown = GMChatStatusFrame and GMChatStatusFrame:IsShown();
+    -- if (ticketStatusFrameShown) then
+    --     TicketStatusFrame:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -180, 0 - offset);
+    --     buffsAreaTopOffset = buffsAreaTopOffset + TicketStatusFrame:GetHeight();
+    -- end
+    -- if (gmChatStatusFrameShown) then
+    --     GMChatStatusFrame:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -170, -5 - offset);
+    --     buffsAreaTopOffset = buffsAreaTopOffset + GMChatStatusFrame:GetHeight() + 5;
+    -- end
+    -- if (not ticketStatusFrameShown and not gmChatStatusFrameShown) then
+    --     buffsAreaTopOffset = buffsAreaTopOffset + 13;
+    -- end
 
-	if(not IsAddOnLoaded("ElvUI") and not MinimapCluster:IsUserPlaced() and MinimapCluster:GetTop()-UIParent:GetHeight() < 1) then
-		MinimapCluster:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", 0, 0 - buffsAreaTopOffset);
-	end
+	-- if(not IsAddOnLoaded("ElvUI") and not MinimapCluster:IsUserPlaced() and MinimapCluster:GetTop()-UIParent:GetHeight() < 1) then
+	-- 	MinimapCluster:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", 0, 0 - buffsAreaTopOffset);
+	-- end
 		
-    BuffFrame:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -205, 0 - buffsAreaTopOffset);
+    -- BuffFrame:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -205, 0 - buffsAreaTopOffset);
 end
 
 function XIVBar:ResetUI()
